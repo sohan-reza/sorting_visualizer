@@ -4,6 +4,7 @@
 #include <sys/ioctl.h> //to get terminal height and width
 #include <termios.h> //for getch() implement in linux
 #include <time.h>
+#include <stdbool.h>
 
 #define clr system("clear")
 #define nocur 	printf("\e[?25l");
@@ -14,6 +15,37 @@
 int data[SIZE];
 float _time = 0.5;
 char dur[10];
+int prs=0;
+
+/************ kbhit *********/
+//this is the kbhit() implementation for linux
+void enable_raw_mode()
+{
+    struct termios term;
+    tcgetattr(0, &term);
+    term.c_lflag &= ~(ICANON | ECHO); // Disable echo as well
+    tcsetattr(0, TCSANOW, &term);
+}
+
+void disable_raw_mode()
+{
+    struct termios term;
+    tcgetattr(0, &term);
+    term.c_lflag |= ICANON | ECHO;
+    tcsetattr(0, TCSANOW, &term);
+}
+
+bool kbhit()
+{
+    int byteswaiting;
+    ioctl(0, FIONREAD, &byteswaiting);
+    return byteswaiting > 0;
+}
+
+/*******kbhit*************/
+
+
+
 
 //This is alternative to getch() in windows
 
@@ -69,7 +101,8 @@ int max(int list[], int len) {
 	return mx;
 }
 
-void list_visualizer(int list[], int len) {
+void list_visualizer(int list[], int len, int who) {
+	
 	int mx = max(list, len);
 	sprintf(dur,"sleep %.1f", _time);
 	COR c1 = coordinate();
@@ -79,6 +112,7 @@ void list_visualizer(int list[], int len) {
 	if(len<=c1.col/3 && mx<100){
 		sub++;
 	}
+	
 	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
 	
 
@@ -110,7 +144,32 @@ void list_visualizer(int list[], int len) {
 	if(len<=c1.col/3 && mx<100){
 		print_list(list, len);
 	}
-	system(dur);
+	if(time!=0){
+		system(dur);
+	}
+	
+	
+	//
+	
+	if(who){
+		enable_raw_mode();
+		int tt=0;
+		if(kbhit()){
+			printf("Press any key to resume.");
+			prs=1;
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
+			
+		}
+		disable_raw_mode();
+		tcflush(0, TCIFLUSH);
+	}
 	
 }
 
@@ -127,7 +186,7 @@ void bubble_sort(int list[], int len){
 			}
 			
 			system("clear");
-			list_visualizer(list, len);	
+			list_visualizer(list, len, 1);	
 		} 
 		if(!flag){break;}
 	}
@@ -330,11 +389,13 @@ void go_to(char list[][20], int select){
 			data2[i]=data[i];
 		}
 		
-		list_visualizer(data2, size);
+		list_visualizer(data2, size, 0);
 		
 		getch();
 		
+		
 		bubble_sort(data2, size);
+		list_visualizer(data2, size, 0);
 		printf("Press any key to back.");
 		getch();
 		fflush(stdin);
