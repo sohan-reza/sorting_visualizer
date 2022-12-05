@@ -3,10 +3,17 @@
 #include <unistd.h> //sleep(), 
 #include <sys/ioctl.h> //to get terminal height and width
 #include <termios.h> //for getch() implement in linux
-
+#include <time.h>
 
 #define clr system("clear")
+#define nocur 	printf("\e[?25l");
+#define cur printf("\e[?25h"); 
 
+#define SIZE 1024
+
+int data[SIZE];
+float _time = 0.5;
+char dur[10];
 
 //This is alternative to getch() in windows
 
@@ -64,16 +71,34 @@ int max(int list[], int len) {
 
 void list_visualizer(int list[], int len) {
 	int mx = max(list, len);
+	sprintf(dur,"sleep %.1f", _time);
+	COR c1 = coordinate();
+	//len+=3;
 	
+	int sub=mx+1;
+	if(len<=c1.col/3 && mx<100){
+		sub++;
+	}
+	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
+	
+
 	int v=mx;
 	for(int i=0; i<mx; i++){
+		
 		for(int j=0; j<len; j++) {
-			
+				
 				if(list[j]>=v){
-					
+					if(len<=c1.col/3){
 					printf(" ▋ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
+					}else{
+					printf("▋");
+					}
 				}else{
+					if(len<=c1.col/3){
 					printf("   ");
+					}else{
+					printf(" ");
+					}
 				}
 			
 		}
@@ -81,8 +106,11 @@ void list_visualizer(int list[], int len) {
 			
 		printf("\n");
 	}
-	print_list(list, len);
-	system("sleep 0.5");
+	
+	if(len<=c1.col/3 && mx<100){
+		print_list(list, len);
+	}
+	system(dur);
 	
 }
 
@@ -107,12 +135,6 @@ void bubble_sort(int list[], int len){
 	
 }
 
-/*
-float t=0.9;
-	char val[10];// = "sleep 1";
-	sprintf(val,"sleep %.1f", t);
-	system(val);
-*/
 
 
 void intro_page(){
@@ -155,6 +177,171 @@ int max_element(char list[][20]){
 	return mx;
 }
 
+void random_data(int size, int height){
+	srand(time(NULL));
+	
+	for(int i=0; i<size; i++) {
+		data[i] = (rand()%height-3)+1;
+		if(data[i]<0 || data[i]==0){
+			data[i]=1;
+		}
+	}
+}
+
+int short_menu(char name[]){
+	int default_select=0;
+	int size=0;
+	while(1){
+	clr;
+	COR c1 = coordinate();
+	for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
+	
+	printf("\033[37m\033[41m");
+	printf("%s\n\n", name);
+	printf("\033[0m\n");
+	
+	printf("Use ↑ and ↓ key to select: \n\n");
+	char algorithm_list[3][22] = {"Random data set.", "Custom data set.", "Set animation delay."};
+  
+  	
+  
+    int k=0;
+    for(int i=0; i<3; i++){
+    
+    	if(default_select==(i)){
+    		printf("\033[30m\033[47m");
+    			printf("%d. %s\n",(i+1), algorithm_list[i]);
+    		printf("\033[0m"); 
+    	}else{
+    		printf("%d. %s\n",(i+1), algorithm_list[i]);
+    	}
+    	
+    }
+    
+    for(int i=0; i<(c1.row-9); i++){printf("\n");}
+    
+    
+    printf("\033[30m\033[47m");
+			printf("Press ESC twice to exit.");
+			for(int i=0; i<c1.col-24; i++){
+				printf(" ");
+			}
+	printf("\033[0m");
+    
+   	
+   	 //This code for hiding cursor in linux terminal  
+   	nocur;
+   	
+   	int d = getch();
+   	if(d==10){
+   			cur;
+   			
+   			clr;
+   			COR c1 = coordinate();
+			for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
+			
+			printf("\033[37m\033[41m");
+			printf("%s\n\n", name);
+			printf("\033[0m\n");
+   			if(default_select==0){
+   				printf("Give random data size between [1-%d]: ", c1.col);
+				scanf("%d", &size);
+				fflush(stdin);
+				
+				random_data(size, c1.row);
+				getch();
+				break;
+   				//
+   			}else if(default_select==1){
+	   			printf("Give data size between [1-%d]: ", c1.col);
+				
+				scanf("%d", &size);
+				printf("\nGive %d data data between [1-%d]: ",size, c1.row-4);
+				
+				
+				for(int i=0; i<size; i++){
+					scanf("%d", &data[i]);
+				}
+				getch(); 
+				break;
+   			}else if(default_select==2){
+   				printf("Give delay in second: ");
+   				scanf("%f", &_time);
+   				fflush(stdin);
+   				break;
+   			}
+   			
+   	}
+   	
+  
+   	
+   	//This code take arrow key input in linux
+   	if (d == '\033') { // if the first value is esc
+   		if(getch()=='\033'){
+   			printf("\e[?25h"); // This line for enable cursor
+   			break;
+   		} // skip the [
+		switch(getch()) { // the real value
+		    case 'A':
+		        // code for arrow up
+		        if(default_select==0){
+		        	default_select=2;
+		        }else{
+		        	default_select--;
+		        }
+		        break;
+		    case 'B':
+		        // code for arrow down
+		       
+		        default_select = (default_select+1)%3;
+		        break;
+		}
+		
+		
+		
+	}
+}
+
+	return size;
+}
+
+void go_to(char list[][20], int select){
+	printf("\e[?25h"); //enable cursor
+	clr;
+	COR c1 = coordinate();
+	
+	for(int i=0; i<((c1.col-11)/2); i++){printf(" ");}
+	
+	printf("\033[37m\033[41m");
+	printf("%s\n", list[select]);
+	printf("\033[0m\n");
+	
+	
+	int size = short_menu(list[select]);
+	
+	if(size>0){
+		clr;
+		nocur;
+		
+		printf("Press any key to start `%s`.", list[select]);
+		
+		int data2[size];
+		for(int i=0; i<size; i++) {
+			data2[i]=data[i];
+		}
+		
+		list_visualizer(data2, size);
+		
+		getch();
+		
+		bubble_sort(data2, size);
+		printf("Press any key to back.");
+		getch();
+		fflush(stdin);
+	}
+	cur;
+}
+
 void show_menu(){
 	int default_select=0;
 	while(1){
@@ -170,7 +357,7 @@ void show_menu(){
 	printf("Use ↑ and ↓ key to select: \n\n");
 	char algorithm_list[10][20] = {"Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort","Heap Sort","Counting Sort","Radix Sort","Bucket Sort","Shell Sort"};
     int mx = max_element(algorithm_list);
-    
+   
     
     
     int k=0;
@@ -221,8 +408,32 @@ void show_menu(){
    	
    	printf("\e[?25l"); //This code for hiding cursor in linux terminal  
    	
+   	int d = getch();
+   	if(d==10){
+   			if(default_select<5){
+   				go_to(algorithm_list, default_select*2);
+   			}else{
+   			  //5 6 7 8 9
+   			  //1 3 5 7 9
+   			  if(default_select==5){
+   			  	go_to(algorithm_list, 1);
+   			  }else if(default_select==6){
+   			  	go_to(algorithm_list, 3);
+   			  }else if(default_select==7){
+   			  	go_to(algorithm_list, 5);
+   			  }else if(default_select==8){
+   			  	go_to(algorithm_list, 7);
+   			  }else{
+   			  	go_to(algorithm_list, 9);
+   			  }
+   				
+   			}
+   			
+   	}
+   	
+   	
    	//This code take arrow key input in linux
-   	if (getch() == '\033') { // if the first value is esc
+   	if (d == '\033') { // if the first value is esc
    		if(getch()=='\033'){
    			printf("\e[?25h"); // This line for enable cursor
    			break;
@@ -250,6 +461,9 @@ void show_menu(){
 		        default_select -=5;
 		        break;
 		}
+		
+		
+		
 	}
 	
 	
@@ -267,11 +481,7 @@ int main(int argc, char **argv){
 	//sleep(1);
 	show_menu();
 
-	int arr[10] = {1,9,5,1,3,5,8,1,60,70};
-	//list_visualizer(arr, 10);
-	//bubble_sort(arr, 10);
-	
-	
+
 	return 0;
 }
 
