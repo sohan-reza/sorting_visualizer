@@ -16,7 +16,8 @@ int data[SIZE];
 float _time = 0.5;
 char dur[10];
 int prs=0;
-
+int step_mode = 0;
+int sorting_finish = 0;
 /************ kbhit *********/
 //this is the kbhit() implementation for linux
 void enable_raw_mode()
@@ -108,6 +109,10 @@ void list_visualizer(int list[], int len, int who) {
 	COR c1 = coordinate();
 	//len+=3;
 	
+	if(who && step_mode && !sorting_finish){
+		printf("Press any key to go one step.");
+	}
+	
 	int sub=mx+1;
 	if(len<=c1.col/3 && mx<100){
 		sub++;
@@ -150,8 +155,14 @@ void list_visualizer(int list[], int len, int who) {
 	
 	
 	//
+	if(who && step_mode){
+		if(getch()=='\033'){
+			getch();
+			getch();
+		}	
+	}
 	
-	if(who){
+	if(who && step_mode==0){
 		enable_raw_mode();
 		int tt=0;
 		if(kbhit()){
@@ -247,6 +258,104 @@ void random_data(int size, int height){
 	}
 }
 
+
+void step_mode_setup(char name[]) {
+		int default_select=step_mode;
+		
+		while(1){
+		clr;
+		COR c1 = coordinate();
+		for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
+		
+		printf("\033[37m\033[41m");
+		printf("%s\n\n", name);
+		printf("\033[0m\n");
+		
+		printf("Use ↑ and ↓ key to select: \n\n");
+		char algorithm_list[2][22] = {"Disable.", "Enable."};
+	  
+	  	
+	  
+		int k=0;
+		for(int i=0; i<2; i++){
+		
+			if(default_select==(i)){
+				printf("\033[30m\033[47m");
+					printf("%d. %s\n",(i+1), algorithm_list[i]);
+				printf("\033[0m"); 
+			}else{
+				printf("%d. %s\n",(i+1), algorithm_list[i]);
+			}
+			
+		}
+		
+		for(int i=0; i<(c1.row-8); i++){printf("\n");}
+		
+		
+		printf("\033[30m\033[47m");
+				printf("Press ESC twice to exit.");
+				for(int i=0; i<c1.col-24; i++){
+					printf(" ");
+				}
+		printf("\033[0m");
+		
+	   	
+	   	 //This code for hiding cursor in linux terminal  
+	   	nocur;
+	   	
+	   	int d = getch();
+	   	if(d==10){
+	   			cur;
+	   			
+	   			clr;
+	   			COR c1 = coordinate();
+				for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
+				
+				printf("\033[37m\033[41m");
+				printf("%s\n\n", name);
+				printf("\033[0m\n");
+	   			if(default_select==0){
+	   				step_mode=0;
+					
+					break;
+	   				//
+	   			}else if(default_select==1){
+		   			step_mode=1;
+					
+					break;
+	   			}
+	   	}
+	   	
+	  
+	   	
+	   	//This code take arrow key input in linux
+	   	if (d == '\033') { // if the first value is esc
+	   		if(getch()=='\033'){
+	   			printf("\e[?25h"); // This line for enable cursor
+	   			break;
+	   		} // skip the [
+			switch(getch()) { // the real value
+				case 'A':
+				    // code for arrow up
+				    if(default_select==0){
+				    	default_select=1;
+				    }else{
+				    	default_select--;
+				    }
+				    break;
+				case 'B':
+				    // code for arrow down
+				   
+				    default_select = (default_select+1)%2;
+				    break;
+			}
+			
+			
+			
+		}
+}
+}
+
 int short_menu(char name[]){
 	int default_select=0;
 	int size=0;
@@ -260,12 +369,12 @@ int short_menu(char name[]){
 	printf("\033[0m\n");
 	
 	printf("Use ↑ and ↓ key to select: \n\n");
-	char algorithm_list[3][22] = {"Random data set.", "Custom data set.", "Set animation delay."};
+	char algorithm_list[4][22] = {"Random data set.", "Custom data set.", "Set animation delay.", "Enable step mode."};
   
   	
   
     int k=0;
-    for(int i=0; i<3; i++){
+    for(int i=0; i<4; i++){
     
     	if(default_select==(i)){
     		printf("\033[30m\033[47m");
@@ -277,7 +386,7 @@ int short_menu(char name[]){
     	
     }
     
-    for(int i=0; i<(c1.row-9); i++){printf("\n");}
+    for(int i=0; i<(c1.row-10); i++){printf("\n");}
     
     
     printf("\033[30m\033[47m");
@@ -308,7 +417,10 @@ int short_menu(char name[]){
 				fflush(stdin);
 				
 				random_data(size, c1.row);
-				getch();
+				if(getch()=='\033'){
+					getch();
+					getch();
+				}
 				break;
    				//
    			}else if(default_select==1){
@@ -321,13 +433,19 @@ int short_menu(char name[]){
 				for(int i=0; i<size; i++){
 					scanf("%d", &data[i]);
 				}
-				getch(); 
+				fflush(stdin);
+				if(getch()=='\033'){
+					getch();
+					getch();
+				}
 				break;
    			}else if(default_select==2){
    				printf("Give delay in second: ");
    				scanf("%f", &_time);
    				fflush(stdin);
    				break;
+   			}else if(default_select==3){
+   				step_mode_setup(name);
    			}
    			
    	}
@@ -344,7 +462,7 @@ int short_menu(char name[]){
 		    case 'A':
 		        // code for arrow up
 		        if(default_select==0){
-		        	default_select=2;
+		        	default_select=3;
 		        }else{
 		        	default_select--;
 		        }
@@ -352,7 +470,7 @@ int short_menu(char name[]){
 		    case 'B':
 		        // code for arrow down
 		       
-		        default_select = (default_select+1)%3;
+		        default_select = (default_select+1)%4;
 		        break;
 		}
 		
@@ -381,26 +499,35 @@ void go_to(char list[][20], int select){
 	if(size>0){
 		clr;
 		nocur;
-		
-		printf("Press any key to start `%s`.", list[select]);
-		
+		//if(!step_mode){
+			printf("Press any key to start `%s`.", list[select]);
+		//}
 		int data2[size];
 		for(int i=0; i<size; i++) {
 			data2[i]=data[i];
 		}
 		
+		
 		list_visualizer(data2, size, 0);
 		
-		getch();
+		if(getch()=='\033') {
+			getch();
+			getch();
+		}
 		
 		
 		bubble_sort(data2, size);
+		sorting_finish=1;
 		list_visualizer(data2, size, 0);
 		printf("Press any key to back.");
-		getch();
+		if(getch()=='\033'){
+			getch();
+			getch();
+		}
 		fflush(stdin);
 	}
 	cur;
+	sorting_finish=0;
 }
 
 void show_menu(){
