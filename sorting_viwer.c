@@ -160,6 +160,7 @@ void list_visualizer(int list[], int len, int who) {
 			getch();
 			getch();
 		}	
+		tcflush(0, TCIFLUSH);
 	}
 	
 	if(who && step_mode==0){
@@ -499,9 +500,11 @@ void go_to(char list[][20], int select){
 	if(size>0){
 		clr;
 		nocur;
-		//if(!step_mode){
+		if(!step_mode){
 			printf("Press any key to start `%s`.", list[select]);
-		//}
+		}else{
+			printf("Press any key to go one step.");
+		}
 		int data2[size];
 		for(int i=0; i<size; i++) {
 			data2[i]=data[i];
