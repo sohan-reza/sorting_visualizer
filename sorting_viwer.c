@@ -274,7 +274,7 @@ void step_mode_setup(char name[]) {
 		for(int i=0; i<((c1.row-5)/2); i++){printf("\n");}
 		
 		/*center*/
-		
+		for(int i=0; i<((c1.col-length("Use ↑ and ↓ key to select: "))/2); i++){printf(" ");}
 		
 		
 		printf("Use ↑ and ↓ key to select: \n\n");
@@ -282,9 +282,11 @@ void step_mode_setup(char name[]) {
 	  
 	  	
 	  
+	  //	printf("%d %d\n", length("Use ↑ and ↓ key to select:"), length(algorithm_list[0])+5);
+	  
 		int k=0;
 		for(int i=0; i<2; i++){
-		
+			for(int i=0; i<((c1.col-17)/2); i++){printf(" ");}
 			if(default_select==(i)){
 				printf("\033[30m\033[47m");
 					printf("%d. %s\n",(i+1), algorithm_list[i]);
@@ -677,8 +679,7 @@ int main(int argc, char **argv){
 	
 	//intro_page();
 	//sleep(1);
-	//show_menu();
-step_mode_setup("sock");
+	show_menu();
 
 	return 0;
 }
