@@ -1,13 +1,20 @@
 
-CC=gcc
+CC := gcc
+
+EXECUTABLE := run
+.DEFAULT_GOAL := all
+
+SRC_FILES :=\
+			src/bubble_sort.c \
+			sorting_viwer.c
 
 all: sorting_viwer.c
-	$(CC) sorting_viwer.c -o run
-	./run
+	$(CC) $(SRC_FILES) -o $(EXECUTABLE)
+	./$(EXECUTABLE)
 	
 test: test.c
 	$(CC) test.c
 	./a.out
 
 clean:
-	rm -f run a.out
+	rm -f $(EXECUTABLE) a.out

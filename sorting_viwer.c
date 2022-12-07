@@ -6,6 +6,10 @@
 #include <time.h>
 #include <stdbool.h>
 
+
+#include "src/sorting.h"
+
+
 #define clr system("clear")
 #define nocur 	printf("\e[?25l");
 #define cur printf("\e[?25h"); 
@@ -182,27 +186,6 @@ void list_visualizer(int list[], int len, int who) {
 		disable_raw_mode();
 		tcflush(0, TCIFLUSH);
 	}
-	
-}
-
-void bubble_sort(int list[], int len){
-	
-	for(int i=0; i<len; i++) {
-		int flag=0;
-		for(int j=0; j<len-i-1; j++) {
-			if(list[j]>list[j+1]) {
-				int temp = list[j];
-				list[j]=list[j+1];
-				list[j+1]=temp;
-				flag=1;
-			}
-			
-			system("clear");
-			list_visualizer(list, len, 1);	
-		} 
-		if(!flag){break;}
-	}
-	
 	
 }
 
@@ -452,7 +435,7 @@ int short_menu(char name[]){
 				}
 				break;
    			}else if(default_select==2){
-   				printf("Give delay in second: ");
+   				printf("Give delay in second (Now %.1f): ", _time);
    				scanf("%f", &_time);
    				fflush(stdin);
    				break;
@@ -532,6 +515,7 @@ void go_to(char list[][20], int select){
 		
 		bubble_sort(data2, size);
 		sorting_finish=1;
+		clr;
 		list_visualizer(data2, size, 0);
 		printf("Press any key to back.");
 		if(getch()=='\033'){
