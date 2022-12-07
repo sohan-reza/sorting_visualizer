@@ -378,6 +378,8 @@ int short_menu(char name[]){
 	
 	for(int i=0; i<((c1.row-7)/2); i++){printf("\n");}
 	
+	for(int i=0; i<((c1.col-length("Use ↑ and ↓ key to select: "))/2); i++){printf(" ");}
+	
 	printf("Use ↑ and ↓ key to select: \n\n");
 	char algorithm_list[4][22] = {"Random data set.", "Custom data set.", "Set animation delay.", "Enable step mode."};
   
@@ -385,7 +387,7 @@ int short_menu(char name[]){
   
     int k=0;
     for(int i=0; i<4; i++){
-    
+    for(int i=0; i<((c1.col-25)/2); i++){printf(" ");}
     	if(default_select==(i)){
     		printf("\033[30m\033[47m");
     			printf("%d. %s\n",(i+1), algorithm_list[i]);
@@ -554,7 +556,10 @@ void show_menu(){
 	
 	for(int i=0; i<(c1.row-8)/2; i++){printf("\n");}
 	
-	printf("Use ↑ and ↓ key to select: \n\n");
+	if(c1.col>=66){
+		for(int i=0; i<((c1.col-25)/2); i++){printf(" ");}
+	}
+	printf("Use ↑ and ↓ key to select:\n\n");
 	char algorithm_list[10][20] = {"Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort","Heap Sort","Counting Sort","Radix Sort","Bucket Sort","Shell Sort"};
     int mx = max_element(algorithm_list);
    
@@ -562,6 +567,9 @@ void show_menu(){
     
     int k=0;
     for(int i=0; i<5; i++){
+    	if(c1.col>=66){
+    	for(int i=0; i<((c1.col-15)/3); i++){printf(" ");}
+    	}
     	int spc=0;
     	
     	spc = length(algorithm_list[k]);
@@ -590,7 +598,7 @@ void show_menu(){
     	}
     	k++;
     }
-    
+  
     
     //printf("%d", c1.row);
     for(int i=0; i<(c1.row-7)/2; i++){printf("\n");}
@@ -654,11 +662,15 @@ void show_menu(){
 		        break;
 		    case 'C':
 		        // code for arrow right
-		        default_select +=5;
+		        if(default_select<5){
+		        	default_select +=5;
+		        }
 		        break;
 		    case 'D':
 		        // code for arrow left
-		        default_select -=5;
+		        if(default_select>=5){
+		        	default_select -=5;
+		        }
 		        break;
 		}
 		
