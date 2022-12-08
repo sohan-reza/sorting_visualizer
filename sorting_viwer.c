@@ -593,7 +593,7 @@ void show_menu(){
     
     int k=0;
     for(int i=0; i<5; i++){
-    	for(int i=0; i<((c1.col-41)/2); i++){printf(" ");}
+    	for(int i=0; i<((c1.col-47)/2); i++){printf(" ");}
     	
     	int spc=0;
     	
