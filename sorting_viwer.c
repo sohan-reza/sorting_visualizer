@@ -125,6 +125,8 @@ void list_visualizer(int list[], int len, int who) {
 		sub++;
 	}
 	
+	
+	
 	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
 	
 	int bar_total_width = 0;
@@ -188,19 +190,22 @@ void list_visualizer(int list[], int len, int who) {
 		enable_raw_mode();
 		int tt=0;
 		if(kbhit()){
-			disable_raw_mode();
-			tcflush(0, TCIFLUSH);
 			
 			printf("Press any key to resume.");
 			if(getch()=='\033'){
 				getch();
 				getch();
 			}
-			
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
 			
 			
 		}
-		
+		disable_raw_mode();
+			tcflush(0, TCIFLUSH);
+			
 		
 	}
 	
@@ -526,13 +531,19 @@ void short_menu(char name[], int algo_select){
 				bubble_sort(data, size);
 			break;
 			
+			case 1:
+				selection_sort(data, size);
+			break;
+			
 			case 2:
 				insertion_sort(data, size);
 			break;
 			
-			case 1:
-				selection_sort(data, size);
+			case 3:
+				merge_sort(data, 0, size-1, size);
 			break;
+			
+			
 		}
 		
 		sorting_finish=1;
@@ -545,6 +556,7 @@ void short_menu(char name[], int algo_select){
 		}
 		fflush(stdin);
 		sorting_finish=0;
+		
 	}
 	
 }

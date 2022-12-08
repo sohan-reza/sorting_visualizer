@@ -8,6 +8,7 @@ SRC_FILES :=\
 			src/bubble_sort.c \
 			src/insertion_sort.c \
 			src/selection_sort.c \
+			src/merge_sort.c \
 			sorting_viwer.c 
 			
 
