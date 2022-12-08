@@ -149,6 +149,7 @@ void list_visualizer(int list[], int len, int who) {
 					}else{
 					printf("▋");
 					}
+					
 				}else{
 				
 					if(len<=c1.col/3){
@@ -526,6 +527,10 @@ void short_menu(char name[], int algo_select){
 			
 			case 2:
 				insertion_sort(data, size);
+			break;
+			
+			case 1:
+				selection_sort(data, size);
 			break;
 		}
 		
