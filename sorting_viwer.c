@@ -363,10 +363,12 @@ void step_mode_setup(char name[]) {
 }
 }
 
-int short_menu(char name[]){
+void short_menu(char name[], int algo_select){
 	int default_select=0;
-	int size=0;
+	
 	while(1){
+	
+	int size=0;
 	clr;
 	COR c1 = coordinate();
 	for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
@@ -432,13 +434,13 @@ int short_menu(char name[]){
 					getch();
 					getch();
 				}
-				break;
+			//	break;
    				//
    			}else if(default_select==1){
 	   			printf("Give data size between [1-%d]: ", c1.col);
 				
 				scanf("%d", &size);
-				printf("\nGive %d data data between [1-%d]: ",size, c1.row-4);
+				printf("\nGive %d data between [1-%d]: ",size, c1.row-4);
 				
 				
 				for(int i=0; i<size; i++){
@@ -449,13 +451,16 @@ int short_menu(char name[]){
 					getch();
 					getch();
 				}
-				break;
+				//break;
    			}else if(default_select==2){
    				printf("Give delay in second (Now %.1f): ", _time);
    				scanf("%f", &_time);
    				fflush(stdin);
-   				
-   				break;
+   				if(getch()=='\033'){
+					getch();
+					getch();
+				}
+   				//break;
    			}else if(default_select==3){
    				step_mode_setup(name);
    			}
@@ -489,9 +494,50 @@ int short_menu(char name[]){
 		
 		
 	}
+	
+	
+	
+	
+	if(size>0){
+		clr;
+		nocur;
+		if(!step_mode){
+			printf("Press any key to start `%s`.", name);
+		}else{
+			printf("Press any key to go one step.");
+		}
+		
+		
+		list_visualizer(data, size, 0);
+		
+		if(getch()=='\033') {
+			if(getch()=='\033'){
+				continue;
+			}
+			getch();
+		}
+		
+		switch(algo_select){
+			case 0:
+				bubble_sort(data, size);
+			break;
+		}
+		
+		sorting_finish=1;
+		clr;
+		list_visualizer(data, size, 0);
+		printf("Press any key to back.");
+		if(getch()=='\033'){
+			getch();
+			getch();
+		}
+		fflush(stdin);
+		sorting_finish=0;
+	}
+	
 }
 
-	return size;
+	
 }
 
 void go_to(char list[][20], int select){
@@ -506,43 +552,10 @@ void go_to(char list[][20], int select){
 	printf("\033[0m\n");
 	
 	
-	int size = short_menu(list[select]);
+	short_menu(list[select], select);
 	
-	if(size>0){
-		clr;
-		nocur;
-		if(!step_mode){
-			printf("Press any key to start `%s`.", list[select]);
-		}else{
-			printf("Press any key to go one step.");
-		}
-		int data2[size];
-		for(int i=0; i<size; i++) {
-			data2[i]=data[i];
-		}
-		
-		
-		list_visualizer(data2, size, 0);
-		
-		if(getch()=='\033') {
-			getch();
-			getch();
-		}
-		
-		
-		bubble_sort(data2, size);
-		sorting_finish=1;
-		clr;
-		list_visualizer(data2, size, 0);
-		printf("Press any key to back.");
-		if(getch()=='\033'){
-			getch();
-			getch();
-		}
-		fflush(stdin);
-	}
 	cur;
-	sorting_finish=0;
+	
 }
 
 void show_menu(){
