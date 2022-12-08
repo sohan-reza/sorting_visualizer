@@ -6,7 +6,9 @@ EXECUTABLE := run
 
 SRC_FILES :=\
 			src/bubble_sort.c \
-			sorting_viwer.c
+			src/insertion_sort.c \
+			sorting_viwer.c 
+			
 
 all: sorting_viwer.c
 	$(CC) $(SRC_FILES) -o $(EXECUTABLE)

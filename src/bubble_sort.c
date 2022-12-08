@@ -1,9 +1,5 @@
 #include "sorting.h"
-#include "visual.h"
 #include <stdlib.h>
-
-
-
 
 void bubble_sort(int list[], int len){
 	

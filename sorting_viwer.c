@@ -517,9 +517,15 @@ void short_menu(char name[], int algo_select){
 			getch();
 		}
 		
+		
+		
 		switch(algo_select){
 			case 0:
 				bubble_sort(data, size);
+			break;
+			
+			case 2:
+				insertion_sort(data, size);
 			break;
 		}
 		
