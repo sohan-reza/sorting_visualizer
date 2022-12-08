@@ -127,19 +127,30 @@ void list_visualizer(int list[], int len, int who) {
 	
 	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
 	
+	int bar_total_width = 0;
+	
+	if(len<=c1.col/3){
+		bar_total_width = len*3;
+	}else{
+		bar_total_width=len;
+	} 
 
 	int v=mx;
 	for(int i=0; i<mx; i++){
-		
+	
+		for(int i=0; i<(c1.col-bar_total_width)/2; i++){printf(" ");}
+	
 		for(int j=0; j<len; j++) {
 				
 				if(list[j]>=v){
+					
 					if(len<=c1.col/3){
 					printf(" ▋ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
 					}else{
 					printf("▋");
 					}
 				}else{
+				
 					if(len<=c1.col/3){
 					printf("   ");
 					}else{
@@ -149,11 +160,13 @@ void list_visualizer(int list[], int len, int who) {
 			
 		}
 		v--;
-			
+		
 		printf("\n");
 	}
 	
+	
 	if(len<=c1.col/3 && mx<100){
+		for(int i=0; i<(c1.col-bar_total_width)/2; i++){printf(" ");}
 		print_list(list, len);
 	}
 	if(time!=0){
