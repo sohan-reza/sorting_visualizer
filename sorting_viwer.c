@@ -273,10 +273,10 @@ void step_mode_setup(char name[]) {
 		for(int i=0; i<((c1.row-5)/2); i++){printf("\n");}
 		
 		/*center*/
-		for(int i=0; i<((c1.col-length("Use ↑ and ↓ key to select: "))/2); i++){printf(" ");}
+		for(int i=0; i<((c1.col-26)/2); i++){printf(" ");}
 		
 		
-		printf("Use ↑ and ↓ key to select: \n\n");
+		printf("Use ↑ and ↓ key to select:\n\n");
 		char algorithm_list[2][22] = {"Disable.", "Enable."};
 	  
 	  	
@@ -285,7 +285,7 @@ void step_mode_setup(char name[]) {
 	  
 		int k=0;
 		for(int i=0; i<2; i++){
-			for(int i=0; i<((c1.col-17)/2); i++){printf(" ");}
+			for(int i=0; i<((c1.col-10)/2); i++){printf(" ");}
 			if(default_select==(i)){
 				printf("\033[30m\033[47m");
 					printf("%d. %s\n",(i+1), algorithm_list[i]);
@@ -379,16 +379,16 @@ void short_menu(char name[], int algo_select){
 	
 	for(int i=0; i<((c1.row-7)/2); i++){printf("\n");}
 	
-	for(int i=0; i<((c1.col-length("Use ↑ and ↓ key to select: "))/2); i++){printf(" ");}
+	for(int i=0; i<((c1.col-26)/2); i++){printf(" ");}
 	
-	printf("Use ↑ and ↓ key to select: \n\n");
+	printf("Use ↑ and ↓ key to select:\n\n");
 	char algorithm_list[4][22] = {"Random data set.", "Custom data set.", "Set animation delay.", "Enable step mode."};
   
   	
   
     int k=0;
     for(int i=0; i<4; i++){
-    for(int i=0; i<((c1.col-25)/2); i++){printf(" ");}
+    for(int i=0; i<((c1.col-19)/2); i++){printf(" ");}
     	if(default_select==(i)){
     		printf("\033[30m\033[47m");
     			printf("%d. %s\n",(i+1), algorithm_list[i]);
