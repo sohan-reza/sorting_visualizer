@@ -23,7 +23,8 @@ char dur[10];
 int step_mode = 0;
 int sorting_finish = 0;
 
-
+int select_bg_color=0;
+int select_fg_color=0;
 
 /************ kbhit *********/
 //this is the kbhit() implementation for linux
@@ -145,7 +146,13 @@ void list_visualizer(int list[], int len, int who) {
 		for(int j=0; j<len; j++) {
 				
 				if(list[j]>=v){
-					
+					if(select_bg_color>0){
+						printf("\033[%dm", 39+select_bg_color);
+					}
+					if(select_fg_color>9){
+						
+						printf("\033[%dm", 29+select_fg_color-9);
+					}
 					if(len<=c1.col/3){
 					printf(" ▋ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
 					}else{
@@ -160,7 +167,7 @@ void list_visualizer(int list[], int len, int who) {
 					printf(" ");
 					}
 				}
-			
+			printf("\033[0m");
 		}
 		v--;
 		
@@ -293,7 +300,8 @@ void step_mode_setup(char name[]) {
 		for(int i=0; i<2; i++){
 			for(int i=0; i<((c1.col-10)/2); i++){printf(" ");}
 			if(default_select==(i)){
-				printf("\033[30m\033[47m");
+				//printf("\033[30m\033[47m");
+				printf("\033[1m"); 
 					printf("%d. %s\n",(i+1), algorithm_list[i]);
 				printf("\033[0m"); 
 			}else{
@@ -369,73 +377,137 @@ void step_mode_setup(char name[]) {
 }
 }
 
-void set_color(char name[]){
+void set_color(){
 	int default_select=0;
 	
+		int selected=-1;
+		int selected2=9;
+	if(select_bg_color || select_fg_color) {
+		default_select=select_bg_color;
+		 selected=select_bg_color;
+		 selected2=select_fg_color;
+	}
+		
 	while(1){
 	
 	int size=0;
 	clr;
 	COR c1 = coordinate();
-	for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
+	//for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
 	
-	printf("\033[37m\033[41m");
-	printf("%s", name);
-	printf("\033[0m");
 	
-	for(int i=0; i<((c1.row-8)/2); i++){printf("\n");}
+	//for(int i=0; i<((c1.row-10)/2); i++){printf("\n");}
+	//printf("\n\n");
 	
-	for(int i=0; i<((c1.col-26)/2); i++){printf(" ");}
+	for(int i=0; i<((c1.col-12)/2); i++){printf(" ");}
 	
-	printf("Use ↑ and ↓ key to select:\n\n");
-	/*
-	Foreground:
+	printf("Select color\n");
+	for(int i=0; i<((c1.col-12)/2); i++){printf(" ");}
+	printf("~~~~~~~~~~~~\n");
+  	char algorithm_list[18][10] = {"Default", "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White", "Default", "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"};
 
-30 Black
-31 Red
-32 Green
-33 Yellow
-34 Blue
-35 Magenta
-36 Cyan
-37 White
+	
 
-Background:
-
-40 Black
-41 Red
-42 Green
-43 Yellow
-44 Blue
-45 Magenta
-46 Cyan
-47 White
-
-0 Reset all
-1 Bold
-
-	*/
-  	char algorithm_list[7][10] = {"Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"};
-  
+	
+  for(int i=0; i<((c1.col-31)/2); i++){printf(" ");}
+  	printf("Background:             Forground:\n");
+  	
     int k=0;
-    for(int i=0; i<7; i++){
-    for(int i=0; i<((c1.col-19)/2); i++){printf(" ");}
-    	if(default_select==(i)){
-    		printf("\033[30m\033[47m");
-    			printf("%d. %s\n",(i+1), algorithm_list[i]);
+    for(int i=0; i<9; i++){
+		
+    	for(int i=0; i<((c1.col-32)/2); i++){printf(" ");}
+    	
+    	if(default_select==i || selected==i){
+    		select_bg_color=i;
+    		if(i==0) {
+    			//printf("\033[30m\033[47m");
+    			printf("\033[1m");
+    		}else{
+				if(i==1){
+					printf("\033[37m\033[%dm", 39+i);
+				}else{
+					printf("\033[30m\033[%dm", 39+i);
+				}
+    		}
+    			printf("%d. %s",(i+1), algorithm_list[i]);
     		printf("\033[0m"); 
     	}else{
-    		printf("%d. %s\n",(i+1), algorithm_list[i]);
+    	
+    		printf("%d. %s",(i+1), algorithm_list[i]);
+    	
+    	}
+    	
+    	//14 + 7
+    	//printf("%d",21-length(algorithm_list[i]));
+    	for(int j=0; j<21-length(algorithm_list[i]);j++){
+    		printf(" ");
+    	}
+    	
+    	if(default_select==i+9  || selected2==i+9) {
+    		
+    		select_fg_color=i+9;
+    		if(i==0) {
+    		//	printf("%d\n", default_select);
+    			//printf("\033[30m\033[47m");
+    			printf("\033[1m");
+    		}else{
+				if(i==1){
+					printf("\033[37m\033[%dm", 39+i);
+				}else{
+					printf("\033[30m\033[%dm", 39+i);
+				}
+    		}
+    		printf("%d. %s\n",(i+1), algorithm_list[i+9]);
+    		printf("\033[0m"); 
+    	}else{
+    	
+    		printf("%d. %s\n",(i+1), algorithm_list[i+9]);
+    	
     	}
     	
     }
+    printf("\n");
+   
+   
+   	int li[25]= {5,6,5,4,1,3,4,6,5,1,2,3,5,6,1,2,3,1,2,3,4,5,2,3,5};
     
-   // for(int i=0; i<(c1.row-10); i++){printf("\n");}
-    for(int i=0; i<((c1.row-7)/2); i++){printf("\n");}
-    
+   	
+   	int v=6;
+	for(int i=0; i<6; i++){
+	
+		for(int i=0; i<(c1.col-25)/2; i++){printf(" ");}
+	
+		for(int j=0; j<25; j++) {
+				
+				if(li[j]>=v){
+					if(select_bg_color>0){
+						printf("\033[%dm", 39+select_bg_color);
+					}
+					if(select_fg_color>9){
+						
+						printf("\033[%dm", 29+select_fg_color-9);
+					}
+					printf("▋");
+					
+					
+				}else{
+				
+					
+					printf(" ");
+					
+				}
+				printf("\033[0m");
+		}
+		v--;
+		
+		printf("\n");
+	}
+   	for(int j=0; j<c1.row-20; j++){
+   		printf("\n");
+   	}
     printf("\033[30m\033[47m");
-			printf("Press ESC twice to exit.");
-			for(int i=0; i<c1.col-24; i++){
+			printf("Press ESC twice to exit. (Use arrow key to select)");
+			for(int i=0; i<c1.col-50; i++){
 				printf(" ");
 			}
 	printf("\033[0m");
@@ -446,62 +518,12 @@ Background:
    	
    	int d = getch();
    	if(d==10){
-   			/*cur;
-   			
-   			clr;
-   			COR c1 = coordinate();
-			for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
-			
-			printf("\033[37m\033[41m");
-			printf("%s\n\n", name);
-			printf("\033[0m\n");
-   			if(default_select==0){
-   				printf("Give random data size between [1-%d]: ", c1.col);
-				scanf("%d", &size);
-				fflush(stdin);
-				
-				random_data(size, c1.row);
-				if(getch()=='\033'){
-					getch();
-					getch();
-				}
-			//	break;
-   				//
-   			}else if(default_select==1){
-	   			printf("Give data size between [1-%d]: ", c1.col);
-				
-				scanf("%d", &size);
-				printf("\nGive %d data between [1-%d]: ",size, c1.row-4);
-				
-				
-				for(int i=0; i<size; i++){
-					scanf("%d", &data[i]);
-				}
-				fflush(stdin);
-				if(getch()=='\033'){
-					getch();
-					getch();
-				}
-				//break;
-   			}else if(default_select==2){
-   				printf("Give delay in second (Now %.1f): ", _time);
-   				scanf("%f", &_time);
-   				fflush(stdin);
-   				if(getch()=='\033'){
-					getch();
-					getch();
-				}
-   				//break;
-   			}else if(default_select==3){
-   				step_mode_setup(name);
-   			}else if(default_select==4) {
-   				set_color(name);
-   			}
-   			*/
+   			break;
    	}
    	
   
-   	
+   //	selected=0;
+   //	selected2=0;
    	//This code take arrow key input in linux
    	if (d == '\033') { // if the first value is esc
    		if(getch()=='\033'){
@@ -511,16 +533,57 @@ Background:
 		switch(getch()) { // the real value
 		    case 'A':
 		        // code for arrow up
+		        if(default_select<=8){
+		       		selected= -1;
+		       	}
 		        if(default_select==0){
-		        	default_select=4;
+		        	selected=0;
+		        	default_select=17;
+		        	selected2=-1;
 		        }else{
+		        	
 		        	default_select--;
 		        }
+		        
 		        break;
 		    case 'B':
 		        // code for arrow down
-		       
-		        default_select = (default_select+1)%5;
+		       	if(default_select==17){
+		       		selected2=17;
+		       		selected=-1;
+		       	}
+		       	if(default_select==8){
+		       		selected2 = -1;
+		       		selected = 8;
+		       	}
+		       	if(default_select<8){
+		       		selected= -1;
+		       	}
+		        default_select = (default_select+1)%18;
+		        
+		        break;
+		        
+		      case 'C':
+		        // code for arrow right
+		       if(default_select >8){
+		       		//default_select -=9;
+		       }else{
+		       		selected = default_select;
+		       		default_select +=9;
+		       		selected2=-1;
+		       }
+		      break;
+		        
+		        case 'D':
+		        // code for arrow left
+		       		
+		          if(default_select <=8){
+		       		//default_select +=9;
+		       }else{
+		       		selected2=default_select;
+		       		default_select -=9;
+		       		selected=-1;
+		       }
 		        break;
 		}
 		
@@ -558,6 +621,7 @@ void short_menu(char name[], int algo_select){
     for(int i=0; i<((c1.col-19)/2); i++){printf(" ");}
     	if(default_select==(i)){
     		printf("\033[30m\033[47m");
+    		printf("\033[1m"); 
     			printf("%d. %s\n",(i+1), algorithm_list[i]);
     		printf("\033[0m"); 
     	}else{
@@ -632,7 +696,7 @@ void short_menu(char name[], int algo_select){
    			}else if(default_select==3){
    				step_mode_setup(name);
    			}else if(default_select==4) {
-   				set_color(name);
+   				set_color();
    			}
    			
    	}
@@ -776,6 +840,7 @@ void show_menu(){
     	//printf("%d\n", default_select);
     	if(default_select==(i)){
     		printf("\033[30m\033[47m");
+    		printf("\033[1m"); 
     			printf("%d. %s",(i+1), algorithm_list[k]);
     		printf("\033[0m"); 
     	}else{
@@ -791,6 +856,7 @@ void show_menu(){
     	
     	if(default_select==(5+i)){
     		printf("\033[30m\033[47m");
+    		printf("\033[1m"); 
     			printf("\t\t%2d. %s\n",5+(i+1) , algorithm_list[k]);
     		printf("\033[0m"); 
     	}else{
@@ -892,7 +958,7 @@ int main(int argc, char **argv){
 	//intro_page();
 	//sleep(1);
 	show_menu();
-
+	
 	return 0;
 }
 
