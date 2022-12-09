@@ -10,5 +10,6 @@ void list_visualizer(int list[], int len, int who);
 void bubble_sort(int list[], int len);
 void insertion_sort(int list[], int len);
 void selection_sort(int list[], int len);
+void merge_sort(int list[], int l, int r, int len);
 
 #endif

@@ -19,7 +19,7 @@
 int data[SIZE];
 float _time = 0.5;
 char dur[10];
-int prs=0;
+
 int step_mode = 0;
 int sorting_finish = 0;
 
@@ -125,6 +125,8 @@ void list_visualizer(int list[], int len, int who) {
 		sub++;
 	}
 	
+	
+	
 	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
 	
 	int bar_total_width = 0;
@@ -188,8 +190,8 @@ void list_visualizer(int list[], int len, int who) {
 		enable_raw_mode();
 		int tt=0;
 		if(kbhit()){
+			
 			printf("Press any key to resume.");
-			prs=1;
 			if(getch()=='\033'){
 				getch();
 				getch();
@@ -199,9 +201,12 @@ void list_visualizer(int list[], int len, int who) {
 				getch();
 			}
 			
+			
 		}
 		disable_raw_mode();
-		tcflush(0, TCIFLUSH);
+			tcflush(0, TCIFLUSH);
+			
+		
 	}
 	
 }
@@ -587,9 +592,10 @@ void short_menu(char name[], int algo_select){
 			printf("%s\n\n", name);
 			printf("\033[0m\n");
    			if(default_select==0){
+   				fflush(stdin);
    				printf("Give random data size between [1-%d]: ", c1.col);
 				scanf("%d", &size);
-				fflush(stdin);
+				//fflush(stdin);
 				
 				random_data(size, c1.row);
 				if(getch()=='\033'){
@@ -688,13 +694,19 @@ void short_menu(char name[], int algo_select){
 				bubble_sort(data, size);
 			break;
 			
+			case 1:
+				selection_sort(data, size);
+			break;
+			
 			case 2:
 				insertion_sort(data, size);
 			break;
 			
-			case 1:
-				selection_sort(data, size);
+			case 3:
+				merge_sort(data, 0, size-1, size);
 			break;
+			
+			
 		}
 		
 		sorting_finish=1;
@@ -707,6 +719,7 @@ void short_menu(char name[], int algo_select){
 		}
 		fflush(stdin);
 		sorting_finish=0;
+		
 	}
 	
 }
@@ -755,7 +768,7 @@ void show_menu(){
     
     int k=0;
     for(int i=0; i<5; i++){
-    	for(int i=0; i<((c1.col-41)/2); i++){printf(" ");}
+    	for(int i=0; i<((c1.col-47)/2); i++){printf(" ");}
     	
     	int spc=0;
     	
