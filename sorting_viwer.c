@@ -154,7 +154,7 @@ void list_visualizer(int list[], int len, int who) {
 						printf("\033[%dm", 29+select_fg_color-9);
 					}
 					if(len<=c1.col/3){
-					printf(" ▋ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
+					printf(" ▊ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
 					}else{
 					printf("▋");
 					}
