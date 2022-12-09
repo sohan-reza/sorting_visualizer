@@ -403,7 +403,7 @@ void set_color(){
 	
 	printf("Select color\n");
 	for(int i=0; i<((c1.col-12)/2); i++){printf(" ");}
-	printf("~~~~~~~~~~~~\n");
+	printf("▔▔▔▔▔▔▔▔▔▔▔▔\n");
   	char algorithm_list[18][10] = {"Default", "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White", "Default", "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"};
 
 	
