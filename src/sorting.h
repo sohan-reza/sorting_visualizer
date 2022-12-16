@@ -12,5 +12,6 @@ void insertion_sort(int list[], int len);
 void selection_sort(int list[], int len);
 void merge_sort(int list[], int l, int r, int len);
 void quick_sort(int list[], int l, int h, int len);
+void heap_sort(int arr[], int len);
 
 #endif

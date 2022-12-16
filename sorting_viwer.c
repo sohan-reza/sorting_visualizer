@@ -897,6 +897,10 @@ void short_menu(char name[], int algo_select){
 				quick_sort(data, 0, size-1, size);
 			break;
 			
+			case 5:
+				heap_sort(data, size);
+			break;
+			
 			
 		}
 		
@@ -929,6 +933,8 @@ void go_to(char list[][20], int select){
 	printf("%s\n", list[select]);
 	printf("\033[0m\n");
 	
+	step_mode=0;
+	_time=0.5;
 	
 	short_menu(list[select], select);
 	

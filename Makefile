@@ -10,6 +10,7 @@ SRC_FILES :=\
 			src/selection_sort.c \
 			src/merge_sort.c \
 			src/quick_sort.c \
+			src/heap_sort.c \
 			sorting_viwer.c 
 			
 
