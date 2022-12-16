@@ -5,7 +5,7 @@
 #include <termios.h> //for getch() implement in linux
 #include <time.h>
 #include <stdbool.h>
-
+#include <string.h>
 
 #include "src/sorting.h"
 
@@ -109,6 +109,129 @@ int max(int list[], int len) {
 	}
 	return mx;
 }
+
+
+//this function is same as list_visualizer() but few function parameter are introduced there
+void viz(int list[], int len, int who, int key, int key2, int cmp1) {
+	
+	int mx = max(list, len);
+	sprintf(dur,"sleep %.1f", _time);
+	COR c1 = coordinate();
+	//len+=3;
+	
+	if(who==1 && step_mode && !sorting_finish){
+		printf("Press any key to go one step.");
+	}
+	
+	int sub=mx+1;
+	if(len<=c1.col/3 && mx<100){
+		sub++;
+	}
+	
+	
+	
+	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
+	
+	int bar_total_width = 0;
+	
+	if(len<=c1.col/3){
+		bar_total_width = len*3;
+	}else{
+		bar_total_width=len;
+	} 
+
+	int v=mx;
+	for(int i=0; i<mx; i++){
+	
+		for(int i=0; i<(c1.col-bar_total_width)/2; i++){printf(" ");}
+	
+		for(int j=0; j<len; j++) {
+				
+				if(list[j]>=v){
+					if(select_bg_color>0){
+						printf("\033[%dm", 39+select_bg_color);
+					}
+					if(select_fg_color>9){
+						
+						printf("\033[%dm", 29+select_fg_color-9);
+					}
+					if(j==key){
+							//printf("\033[31m");
+							//printf("\033[1m");
+					}
+					if(who==1 && (j==cmp1 || j==key2)){
+							printf("\033[31m"); //red
+					}
+					if(who==2 && (j==key || j==key2)&&(key!=key2)){
+						
+						printf("\033[32m"); //green
+						
+					}
+					if(len<=c1.col/3){
+					printf(" ▊ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
+					}else{
+					printf("▋");
+					}
+					
+				}else{
+				
+					if(len<=c1.col/3){
+					printf("   ");
+					}else{
+					printf(" ");
+					}
+				}
+			printf("\033[0m");
+		}
+		v--;
+		
+		printf("\n");
+	}
+	
+	if(len<=c1.col/3 && mx<100){
+		for(int i=0; i<(c1.col-bar_total_width)/2; i++){printf(" ");}
+		print_list(list, len);
+	}
+	if(time!=0){
+		system(dur);
+	}
+	
+	
+	//
+	if(who==1 && step_mode){
+		if(getch()=='\033'){
+			getch();
+			getch();
+		}	
+		tcflush(0, TCIFLUSH);
+	}
+	
+	if(who==1 && step_mode==0){
+		enable_raw_mode();
+		int tt=0;
+		if(kbhit()){
+			
+			printf("Press any key to resume.");
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
+			
+			
+		}
+		disable_raw_mode();
+			tcflush(0, TCIFLUSH);
+			
+		
+	}
+	
+}
+
+
 
 void list_visualizer(int list[], int len, int who) {
 	
@@ -768,6 +891,10 @@ void short_menu(char name[], int algo_select){
 			
 			case 3:
 				merge_sort(data, 0, size-1, size);
+			break;
+			
+			case 4:
+				quick_sort(data, 0, size-1, size);
 			break;
 			
 			

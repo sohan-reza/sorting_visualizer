@@ -9,6 +9,7 @@ SRC_FILES :=\
 			src/insertion_sort.c \
 			src/selection_sort.c \
 			src/merge_sort.c \
+			src/quick_sort.c \
 			sorting_viwer.c 
 			
 
