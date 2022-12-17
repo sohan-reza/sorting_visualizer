@@ -233,6 +233,7 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 
 
 
+
 void list_visualizer(int list[], int len, int who) {
 	
 	int mx = max(list, len);
@@ -339,7 +340,7 @@ void list_visualizer(int list[], int len, int who) {
 		
 	}
 	
-}
+} 
 
 
 
@@ -899,6 +900,11 @@ void short_menu(char name[], int algo_select){
 			
 			case 5:
 				heap_sort(data, size);
+			break;
+			
+			case 6:
+				counting_sort(data, size);
+				//printf("Adf");
 			break;
 			
 			

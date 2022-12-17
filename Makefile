@@ -11,6 +11,7 @@ SRC_FILES :=\
 			src/merge_sort.c \
 			src/quick_sort.c \
 			src/heap_sort.c \
+			src/counting_sort.c \
 			sorting_viwer.c 
 			
 
