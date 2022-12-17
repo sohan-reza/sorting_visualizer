@@ -12,6 +12,7 @@ SRC_FILES :=\
 			src/quick_sort.c \
 			src/heap_sort.c \
 			src/counting_sort.c \
+			src/radix_sort.c \
 			sorting_viwer.c 
 			
 

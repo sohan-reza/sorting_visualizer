@@ -904,7 +904,11 @@ void short_menu(char name[], int algo_select){
 			
 			case 6:
 				counting_sort(data, size);
-				//printf("Adf");
+				
+			break;
+			
+			case 7:
+				radix_sort(data, size);
 			break;
 			
 			

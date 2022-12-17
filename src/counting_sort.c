@@ -5,9 +5,7 @@
 
 void counting_sort(int array[], int len) {
 	int output[len+1];
-	for(int i=0; i<len; i++) {
-		output[i]=array[i];
-	}
+	
 	int largest = max(array, len);
 	
 	int count[largest+1];

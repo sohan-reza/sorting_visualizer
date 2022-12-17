@@ -14,5 +14,6 @@ void merge_sort(int list[], int l, int r, int len);
 void quick_sort(int list[], int l, int h, int len);
 void heap_sort(int arr[], int len);
 void counting_sort(int arr[], int len);
+void radix_sort(int arr[], int len);
 
 #endif
