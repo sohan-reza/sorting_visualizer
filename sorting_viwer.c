@@ -911,7 +911,13 @@ void short_menu(char name[], int algo_select){
 				radix_sort(data, size);
 			break;
 			
+			case 8:
 			
+			break;
+			
+			case 9:
+				bucket_sort(data, size);
+			break;
 		}
 		
 		sorting_finish=1;
