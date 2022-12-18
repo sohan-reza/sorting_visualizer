@@ -15,6 +15,7 @@ void quick_sort(int list[], int l, int h, int len);
 void heap_sort(int arr[], int len);
 void counting_sort(int arr[], int len);
 void radix_sort(int arr[], int len);
-void bucket_sort(int array[], int len);
+void shell_sort(int array[], int len);
+void bogo_sort(int array[], int len);
 
 #endif

@@ -912,11 +912,11 @@ void short_menu(char name[], int algo_select){
 			break;
 			
 			case 8:
-			
+				shell_sort(data, size);
 			break;
 			
 			case 9:
-				bucket_sort(data, size);
+				bogo_sort(data, size);
 			break;
 		}
 		
@@ -974,7 +974,7 @@ void show_menu(){
 		for(int i=0; i<((c1.col-26)/2); i++){printf(" ");}
 	
 	printf("Use ↑ and ↓ key to select:\n\n");
-	char algorithm_list[10][20] = {"Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort","Heap Sort","Counting Sort","Radix Sort","Bucket Sort","Shell Sort"};
+	char algorithm_list[10][20] = {"Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort","Heap Sort","Counting Sort","Radix Sort","Shell Sort","Bogo Sort!"};
     int mx = max_element(algorithm_list);
    
     

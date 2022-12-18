@@ -13,7 +13,8 @@ SRC_FILES :=\
 			src/heap_sort.c \
 			src/counting_sort.c \
 			src/radix_sort.c \
-			src/bucket_sort.c \
+			src/shell_sort.c \
+			src/bogo_sort.c \
 			sorting_viwer.c 
 			
 
