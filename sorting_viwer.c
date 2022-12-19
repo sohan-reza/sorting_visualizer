@@ -235,13 +235,13 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 
 
 void list_visualizer(int list[], int len, int who) {
+
 	
 	int mx = max(list, len);
 	sprintf(dur,"sleep %.1f", _time);
 	COR c1 = coordinate();
-	//len+=3;
-	
-	if(who && step_mode && !sorting_finish){
+
+	if(who &&step_mode && !sorting_finish){
 		printf("Press any key to go one step.");
 	}
 	
@@ -270,13 +270,7 @@ void list_visualizer(int list[], int len, int who) {
 		for(int j=0; j<len; j++) {
 				
 				if(list[j]>=v){
-					if(select_bg_color>0){
-						printf("\033[%dm", 39+select_bg_color);
-					}
-					if(select_fg_color>9){
-						
-						printf("\033[%dm", 29+select_fg_color-9);
-					}
+					
 					if(len<=c1.col/3){
 					printf(" ▊ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
 					}else{
@@ -291,7 +285,7 @@ void list_visualizer(int list[], int len, int who) {
 					printf(" ");
 					}
 				}
-			printf("\033[0m");
+			
 		}
 		v--;
 		
@@ -727,7 +721,8 @@ void short_menu(char name[], int algo_select){
 	COR c1 = coordinate();
 	for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
 	
-	printf("\033[37m\033[41m");
+	//printf("\033[37m\033[41m");
+	printf("\033[1m");
 	printf("%s", name);
 	printf("\033[0m");
 	
@@ -859,12 +854,31 @@ void short_menu(char name[], int algo_select){
 	if(size>0){
 		clr;
 		nocur;
-		if(!step_mode){
-			printf("Press any key to start `%s`.", name);
-		}else{
-			printf("Press any key to go one step.");
+		
+		
+		
+		if(select_bg_color>0){
+						printf("\033[%dm", 39+select_bg_color);
+					}
+		if(select_fg_color>9){
+						printf("\033[%dm", 29+select_fg_color-9);
 		}
 		
+		for(int i=0; i<c1.row; i++){
+			for(int j=0; j<c1.col; j++) {
+				printf(" ");
+			}
+			printf("\n");
+			
+		}
+		clr;
+		
+		 if(!step_mode){
+                      printf("Press any key to start `%s`.", name);
+             }else{
+                     printf("Press any key to go one step.");
+
+		}
 		
 		list_visualizer(data, size, 0);
 		
@@ -874,6 +888,7 @@ void short_menu(char name[], int algo_select){
 			}
 			getch();
 		}
+		
 		
 		
 		
@@ -924,12 +939,14 @@ void short_menu(char name[], int algo_select){
 		clr;
 		list_visualizer(data, size, 0);
 		printf("Press any key to back.");
+		printf("\033[0m");
 		if(getch()=='\033'){
 			getch();
 			getch();
 		}
 		fflush(stdin);
 		sorting_finish=0;
+		
 		
 	}
 	
@@ -941,16 +958,11 @@ void short_menu(char name[], int algo_select){
 void go_to(char list[][20], int select){
 	printf("\e[?25h"); //enable cursor
 	clr;
-	COR c1 = coordinate();
-	
-	for(int i=0; i<((c1.col-11)/2); i++){printf(" ");}
-	
-	printf("\033[37m\033[41m");
-	printf("%s\n", list[select]);
-	printf("\033[0m\n");
 	
 	step_mode=0;
 	_time=0.5;
+	select_bg_color=0;
+	select_fg_color=0;
 	
 	short_menu(list[select], select);
 	
@@ -966,8 +978,9 @@ void show_menu(){
 	
 	for(int i=0; i<((c1.col-19)/2); i++){printf(" ");}
 	
+	printf("\033[1m");
 	printf(" Sorting Visualizer");
-	
+	printf("\033[0m");
 	for(int i=0; i<(c1.row-8)/2; i++){printf("\n");}
 	
 
@@ -1087,27 +1100,22 @@ void show_menu(){
 		        	default_select -=5;
 		        }
 		        break;
-		}
-		
-		
-		
+		}	
 	}
-	
-	
-	
-   
     }
     
-    
-   
 }
 
 int main(int argc, char **argv){
 	
-	//intro_page();
-	//sleep(1);
+	intro_page();
+	nocur;
+	if(getch()=='\033'){
+		getch();
+		getch();
+	}
 	show_menu();
-	
+	cur;
 	return 0;
 }
 
