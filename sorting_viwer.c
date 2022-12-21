@@ -17,7 +17,7 @@
 #define SIZE 1024
 
 int data[SIZE];
-float _time = 0.5;
+float _time = 0.08";
 char dur[10];
 
 int step_mode = 0;
@@ -115,7 +115,7 @@ int max(int list[], int len) {
 void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 	
 	int mx = max(list, len);
-	sprintf(dur,"sleep %.1f", _time);
+	sprintf(dur,"sleep %.2f", _time);
 	COR c1 = coordinate();
 	//len+=3;
 	
@@ -238,7 +238,7 @@ void list_visualizer(int list[], int len, int who) {
 
 	
 	int mx = max(list, len);
-	sprintf(dur,"sleep %.1f", _time);
+	sprintf(dur,"sleep %.2f", _time);
 	COR c1 = coordinate();
 
 	if(who==1 &&step_mode && !sorting_finish){
@@ -960,7 +960,7 @@ void go_to(char list[][20], int select){
 	clr;
 	
 	step_mode=0;
-	_time=0.5;
+	_time=0.08;
 	select_bg_color=0;
 	select_fg_color=0;
 	
@@ -1108,14 +1108,18 @@ void show_menu(){
 
 int main(int argc, char **argv){
 	
-	intro_page();
+	/*intro_page();
 	nocur;
 	if(getch()=='\033'){
 		getch();
 		getch();
 	}
 	show_menu();
-	cur;
+	cur;*/
+	
+	int d[10]={10,9,8,6,4,5,7,3,2,1};
+	insertion_sort(d, 10);
+	
 	return 0;
 }
 
