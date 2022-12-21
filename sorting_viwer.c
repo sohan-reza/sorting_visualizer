@@ -181,7 +181,7 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 					printf(" ");
 					}
 				}
-			printf("\033[0m");
+			//printf("\033[0m");
 		}
 		v--;
 		
@@ -241,7 +241,7 @@ void list_visualizer(int list[], int len, int who) {
 	sprintf(dur,"sleep %.1f", _time);
 	COR c1 = coordinate();
 
-	if(who &&step_mode && !sorting_finish){
+	if(who==1 &&step_mode && !sorting_finish){
 		printf("Press any key to go one step.");
 	}
 	
@@ -303,7 +303,7 @@ void list_visualizer(int list[], int len, int who) {
 	
 	
 	//
-	if(who && step_mode){
+	if(who==1 && step_mode){
 		if(getch()=='\033'){
 			getch();
 			getch();
@@ -311,7 +311,7 @@ void list_visualizer(int list[], int len, int who) {
 		tcflush(0, TCIFLUSH);
 	}
 	
-	if(who && step_mode==0){
+	if(who==1 && step_mode==0){
 		enable_raw_mode();
 		int tt=0;
 		if(kbhit()){
