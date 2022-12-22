@@ -17,7 +17,7 @@
 #define SIZE 1024
 
 int data[SIZE];
-float _time = 0.08";
+float _time = 0.08;
 char dur[10];
 
 int step_mode = 0;
@@ -148,13 +148,8 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 		for(int j=0; j<len; j++) {
 				
 				if(list[j]>=v){
-					if(select_bg_color>0){
-						printf("\033[%dm", 39+select_bg_color);
-					}
-					if(select_fg_color>9){
-						
-						printf("\033[%dm", 29+select_fg_color-9);
-					}
+					
+					
 					if(j==key){
 							//printf("\033[31m");
 							//printf("\033[1m");
@@ -181,7 +176,14 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 					printf(" ");
 					}
 				}
-			//printf("\033[0m");
+			printf("\033[0m");
+			if(select_bg_color>0){
+						printf("\033[%dm", 39+select_bg_color);
+					}
+			if(select_fg_color>9){
+						
+						printf("\033[%dm", 29+select_fg_color-9);
+					}
 		}
 		v--;
 		
@@ -1108,17 +1110,15 @@ void show_menu(){
 
 int main(int argc, char **argv){
 	
-	/*intro_page();
+	intro_page();
 	nocur;
 	if(getch()=='\033'){
 		getch();
 		getch();
 	}
 	show_menu();
-	cur;*/
+	cur;
 	
-	int d[10]={10,9,8,6,4,5,7,3,2,1};
-	insertion_sort(d, 10);
 	
 	return 0;
 }
