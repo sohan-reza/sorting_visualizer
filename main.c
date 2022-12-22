@@ -465,10 +465,9 @@ void intro_page(){
 	COR c1 = coordinate();
 	char *intro1 = " Sorting Visualizer";
 	char *intro= " ";
-	char *intro2 = "version 0.0.1";
+	char *intro2 = "version 1.0.0";
 	char *intro3 = "by Sohan Reza";
-	char *intro4 = "It's free and open source!";
-	
+	char *intro4 = "                          ";
 	
 	for(int i=0; i<(c1.row-5)/2; i++){printf("\n");}
 	
@@ -550,7 +549,7 @@ void step_mode_setup(char name[]) {
 		COR c1 = coordinate();
 		for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
 		
-		printf("\033[37m\033[41m");
+		printf("\033[1m");
 		printf("%s", name);
 		printf("\033[0m");
 		for(int i=0; i<((c1.row-5)/2); i++){printf("\n");}
@@ -591,7 +590,7 @@ void step_mode_setup(char name[]) {
 		printf("\033[0m");
 		
 	   	
-	   	 //This code for hiding cursor in linux terminal  
+	   	 
 	   	nocur;
 	   	
 	   	int d = getch();
@@ -923,7 +922,7 @@ void short_menu(char name[], int algo_select){
    			COR c1 = coordinate();
 			for(int i=0; i<((c1.col-length(name))/2); i++){printf(" ");}
 			
-			printf("\033[37m\033[41m");
+			printf("\033[1m");
 			printf("%s\n\n", name);
 			printf("\033[0m\n");
    			if(default_select==0){
@@ -1260,12 +1259,12 @@ void show_menu(){
 
 int main(int argc, char **argv){
 	
-	/*intro_page();
+	intro_page();
 	nocur;
 	if(getch()=='\033'){
 		getch();
 		getch();
-	}*/
+	}
 	show_menu();
 	cur;
 	

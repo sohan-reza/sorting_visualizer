@@ -1,7 +1,7 @@
 
 CC := gcc
 
-EXECUTABLE := run
+EXECUTABLE := srv
 .DEFAULT_GOAL := all
 
 SRC_FILES :=\
@@ -20,11 +20,9 @@ SRC_FILES :=\
 
 all: main.c
 	$(CC) $(SRC_FILES) -o $(EXECUTABLE)
-	./$(EXECUTABLE)
 	
 test: test.c
 	$(CC) test.c
-	./a.out
 
 clean:
-	rm -f $(EXECUTABLE) a.out
+	rm -f $(EXECUTABLE)
