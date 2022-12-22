@@ -15,10 +15,10 @@ SRC_FILES :=\
 			src/radix_sort.c \
 			src/shell_sort.c \
 			src/bogo_sort.c \
-			sorting_viwer.c 
+			main.c 
 			
 
-all: sorting_viwer.c
+all: main.c
 	$(CC) $(SRC_FILES) -o $(EXECUTABLE)
 	./$(EXECUTABLE)
 	
