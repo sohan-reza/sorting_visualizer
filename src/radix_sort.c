@@ -33,7 +33,7 @@ void count_sort(int array[], int len, int place) {
 	for(int i=0; i<len; i++){
 		array[i]=output[i];
 		system("clear");
-		list_visualizer(array, len, 1);
+		list_visualizer2(array, len, 1, i);
 	}
 	
 }

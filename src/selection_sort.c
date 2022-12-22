@@ -15,7 +15,7 @@ void selection_sort(int data[], int len) {
 			data[i]=temp;
 		}
 		system("clear");
-		list_visualizer(data, len, 1);	
+		list_visualizer2(data, len, 1, i);	
 		
 	}
 }

@@ -119,7 +119,7 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 	COR c1 = coordinate();
 	//len+=3;
 	
-	if(who==1 && step_mode && !sorting_finish){
+	if(who && step_mode && !sorting_finish){
 		printf("Press any key to go one step.");
 	}
 	
@@ -161,6 +161,9 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 						
 						printf("\033[32m"); //green
 						
+					}
+					if(who==2 && cmp1==j){
+						printf("\033[31m"); //red
 					}
 					if(len<=c1.col/3){
 					printf(" ▊ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
@@ -232,6 +235,123 @@ void viz(int list[], int len, int who, int key, int key2, int cmp1) {
 	}
 	
 }
+
+
+
+
+void list_visualizer2(int list[], int len, int who, int id) {
+
+	
+	int mx = max(list, len);
+	sprintf(dur,"sleep %.2f", _time);
+	COR c1 = coordinate();
+
+	if(who==1 &&step_mode && !sorting_finish){
+		printf("Press any key to go one step.");
+	}
+	
+	int sub=mx+1;
+	if(len<=c1.col/3 && mx<100){
+		sub++;
+	}
+	
+	
+	
+	for(int i=0; i<(c1.row-sub); i++){printf("\n");}
+	
+	int bar_total_width = 0;
+	
+	if(len<=c1.col/3){
+		bar_total_width = len*3;
+	}else{
+		bar_total_width=len;
+	} 
+
+	int v=mx;
+	for(int i=0; i<mx; i++){
+	
+		for(int i=0; i<(c1.col-bar_total_width)/2; i++){printf(" ");}
+	
+		for(int j=0; j<len; j++) {
+				
+				if(list[j]>=v){
+					if(id==j){
+						printf("\033[31m");
+					}
+					if(len<=c1.col/3){
+					printf(" ▊ "); //■▊▋▍▐▏▎▍   from https://www.i2symbol.com/symbols/geometry
+					}else{
+					printf("▋");
+					}
+					
+				}else{
+				
+					if(len<=c1.col/3){
+					printf("   ");
+					}else{
+					printf(" ");
+					}
+				}
+				
+				printf("\033[0m");
+			if(select_bg_color>0){
+						printf("\033[%dm", 39+select_bg_color);
+					}
+			if(select_fg_color>9){
+						
+						printf("\033[%dm", 29+select_fg_color-9);
+					}
+				
+			
+		}
+		v--;
+		
+		printf("\n");
+	}
+	
+	
+	if(len<=c1.col/3 && mx<100){
+		for(int i=0; i<(c1.col-bar_total_width)/2; i++){printf(" ");}
+		print_list(list, len);
+	}
+	if(time!=0){
+		system(dur);
+	}
+	
+	
+	//
+	if(who==1 && step_mode){
+		if(getch()=='\033'){
+			getch();
+			getch();
+		}	
+		tcflush(0, TCIFLUSH);
+	}
+	
+	if(who==1 && step_mode==0){
+		enable_raw_mode();
+		int tt=0;
+		if(kbhit()){
+			
+			printf("Press any key to resume.");
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
+			if(getch()=='\033'){
+				getch();
+				getch();
+			}
+			
+			
+		}
+		disable_raw_mode();
+			tcflush(0, TCIFLUSH);
+			
+		
+	}
+	
+} 
 
 
 
@@ -380,15 +500,45 @@ int max_element(char list[][20]){
 	return mx;
 }
 
+int sorted(int size) {
+	if(size==1){
+		return 0;
+	}
+	for(int i=1; i<size; i++) {
+			
+			if(data[i]<data[i-1]){
+				return 0;
+			}
+	}
+	//5 13 0
+	return 1;
+}
+
 void random_data(int size, int height){
 	srand(time(NULL));
 	
-	for(int i=0; i<size; i++) {
-		data[i] = (rand()%height-3)+1;
-		if(data[i]<0 || data[i]==0){
-			data[i]=1;
+	
+	/*for(int i=1; i<=size; i++){data[i-1]=i;}
+	for(int i=0; i<size; i++){
+		int pos = (rand()%size);
+		int t=data[i];
+		data[i] = data[pos];
+		data[pos]=t;
+	
+	}*/
+	
+	
+	do{
+		for(int i=0; i<size; i++) {
+			do{
+				int r_d = (rand()%height-3)+1;
+				data[i]=r_d;
+					
+			
+			}while(data[i]<0 || data[i]==0);
 		}
-	}
+		
+	}while(sorted(size));
 }
 
 
@@ -1110,12 +1260,12 @@ void show_menu(){
 
 int main(int argc, char **argv){
 	
-	intro_page();
+	/*intro_page();
 	nocur;
 	if(getch()=='\033'){
 		getch();
 		getch();
-	}
+	}*/
 	show_menu();
 	cur;
 	

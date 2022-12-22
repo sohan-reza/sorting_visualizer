@@ -58,6 +58,6 @@ void merge_sort(int arr[], int l, int r, int len) {
 		
 		merge(arr, l, m, r);
 		system("clear");
-		list_visualizer(arr, len, 1);
+		list_visualizer2(arr, len, 1, m);
 	}
 }

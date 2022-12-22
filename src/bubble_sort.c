@@ -14,7 +14,7 @@ void bubble_sort(int list[], int len){
 			}
 			
 			system("clear");
-			list_visualizer(list, len, 1);	
+			list_visualizer2(list, len, 1, j+1);	
 		} 
 		if(!flag){break;}
 	}

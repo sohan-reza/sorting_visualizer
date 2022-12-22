@@ -14,7 +14,7 @@ void shell_sort(int array[], int n) {
      	 	array[j] = temp;
      	 	
      	 	system("clear");
-		  	list_visualizer(array, n, 1);
+		  	list_visualizer2(array, n, 1, i);
 		}
 	}
 	

@@ -10,13 +10,16 @@ int partition(int arr[], int l, int h, int len) {
 		if(arr[j] < pivot) {
 			
 			i++;
+			
 			system("clear");
-			viz(arr, len, 2, i, j, 0);
+			viz(arr, len, 2, i, j, h);
+			
 			int t = arr[i];
 			arr[i] = arr[j];
 			arr[j] = t;
+			
 			system("clear");
-			viz(arr, len, 2, i, j, 0);
+			viz(arr, len, 2, i, j, h);
 		}
 		system("clear");
 		viz(arr, len, 1, l,h, j);

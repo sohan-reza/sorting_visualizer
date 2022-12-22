@@ -3,6 +3,7 @@
 
 
 int max(int list[], int len);
+void list_visualizer2(int list[], int len, int who, int id);
 void list_visualizer(int list[], int len, int who);
 void viz(int list[], int len, int who, int key, int key2, int cmp1);
 

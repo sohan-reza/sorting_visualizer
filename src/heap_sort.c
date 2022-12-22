@@ -41,7 +41,7 @@ void heap_sort(int arr[], int len) {
 		arr[0]=t;
 		l--;
 		system("clear");
-		list_visualizer(arr, len, 1);
+		list_visualizer2(arr, len, 1, i);
 		heapify(arr, l, 0);
 		
 	}

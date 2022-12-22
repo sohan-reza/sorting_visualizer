@@ -27,5 +27,6 @@ void bogo_sort(int arr[], int len) {
 		shuffle(arr, len);
 		system("clear");
 		list_visualizer(arr, len, 1);
+	
 	}
 }

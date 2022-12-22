@@ -31,7 +31,7 @@ void counting_sort(int array[], int len) {
 		array[i]=output[i];
 		
 		system("clear");
-		list_visualizer(array, len, 1);
+		list_visualizer2(array, len, 1, i);
 		//list_visualizer(output, len, 1,1);
 	}
 	

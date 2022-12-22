@@ -10,7 +10,7 @@ void insertion_sort(int data[], int len) {
 			data[j]=x;
 			j--;
 			system("clear");
-			list_visualizer(data, len, 1);	
+			list_visualizer2(data, len, 1, j+1);	
 		}
 		
 	}
